@@ -1,0 +1,338 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "img/bg-image.jpg" %}');
+        }
+
+
+        /* ... (previous CSS code) ... */
+
+#usertype-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    appearance: none; /* Remove default styles for some browsers */
+    background-color: white;
+    background-image: url('path_to_arrow_icon.png'); /* Replace with your arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+}
+
+#usertype-input::-ms-expand {
+    display: none; /* Hide the default arrow icon in IE/Edge */
+}
+
+.validation-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    
+}
+
+/* ... (remaining CSS code) ... */
+
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        ul li {
+            margin-right: 20px;
+        }
+
+        ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .registration-form {
+            width: 80%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .registration-form label,
+        .registration-form input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .registration-form button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .registration-form button:hover {
+            background-color: #555;
+        }
+        /* ... (previous CSS code) ... */
+
+.usertype-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    appearance: none; /* Remove default styles for some browsers */
+    background-color: white;
+    background-image: url('path_to_arrow_icon.png'); /* Replace with your arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+}
+
+.usertype-input::-ms-expand {
+    display: none; /* Hide the default arrow icon in IE/Edge */
+}
+
+.validation-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* ... (remaining CSS code) ... */
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="registration-form">
+        <h2>Registration Form</h2>
+        {% if messages %}
+        <div class="error_message">
+            <ul class="messages">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form id="registration-form" action="#" method="post">
+
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username-input" name="username" required>
+            <div class="validation-message" id="username-validation-message"></div>
+            
+
+
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname-input" name="fname" required>
+            <div class="validation-message" id="username-validation-message"></div>
+
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname-input" name="lname" required>
+            <div class="validation-message" id="username-validation-message"></div>
+
+          
+
+            <!--<div class="form-group">
+
+            <label for="{{ form.usertype.id_for_label }}">User Type:</label>
+            <span id="usertype-validation-message" class="validation-message"></span>
+            {{ form.user_type}}</div>-->
+
+            
+{% comment %} <select id="usertype-input" name="usertype" required> {% endcomment %}
+    {% comment %} <option value="" selected>Choose</option>
+    <option value="student">Student</option>
+    <option value="staff">Staff</option>
+</select>
+<div class="validation-message" id="usertype-validation-message"></div> {% endcomment %}
+
+
+
+            <label for="email">Email:</label>
+            <input type="email" id="email-input" name="email" required>
+            <div class="validation-message" id="email-validation-message"></div>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password-input" name="password" required>
+            <div class="validation-message" id="password-validation-message"></div>
+
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" id="confirm-password-input" name="confirm_password" required>
+            <div class="validation-message" id="confirm-password-validation-message"></div>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        // Get references to the validation message elements and form fields
+        const firstNameValidationMessage = document.getElementById('firstname-validation-message');
+        const lastNameValidationMessage = document.getElementById('lastname-validation-message');
+
+        const usernameValidationMessage = document.getElementById('username-validation-message');
+        const emailValidationMessage = document.getElementById('email-validation-message');
+        const passwordValidationMessage = document.getElementById('password-validation-message');
+        const confirmPasswordValidationMessage = document.getElementById('confirm-password-validation-message');
+
+
+        const firstNameInput = document.getElementById('firstname-input');
+        const lastNameInput = document.getElementById('lastname-input');
+
+        const usernameInput = document.getElementById('username-input');
+        const emailInput = document.getElementById('email-input');
+        const passwordInput = document.getElementById('password-input');
+        const confirmPasswordInput = document.getElementById('confirm-password-input');
+
+        // Validation logic for username, email, password, and confirm password
+// Validate username (no whitespace, only underscores allowed)
+
+firstNameInput.addEventListener('input', () => {
+    const firstNameValue = firstNameInput.value.trim();
+    if (firstNameValue === '') {
+        firstNameValidationMessage.textContent = 'Please enter your First Name.';
+    } else if (!/^[a-zA-Z]*$/.test(firstNameValue)) {
+        firstNameValidationMessage.textContent = 'First Name can only contain letters.';
+    } else {
+        firstNameValidationMessage.textContent = '';
+    }
+});
+
+
+lastNameInput.addEventListener('input', () => {
+    const lastNameValue = lastNameInput.value.trim();
+    if (lastNameValue === '') {
+        lastNameValidationMessage.textContent = 'Please enter your Last Name.';
+    } else if (!/^[a-zA-Z]*$/.test(lastNameValue)) {
+        lastNameValidationMessage.textContent = 'Last Name can only contain letters.';
+    } else {
+        lastNameValidationMessage.textContent = '';
+    }
+});
+
+
+usernameInput.addEventListener('input', () => {
+    const usernameValue = usernameInput.value.trim();
+    if (usernameValue === '') {
+        usernameValidationMessage.textContent = 'Please enter your Username.';
+    } else if (/\s/.test(usernameValue)) {
+        usernameValidationMessage.textContent = 'Username cannot contain spaces.';
+    } else if (!/^[a-zA-Z0-9_]*$/.test(usernameValue)) {
+        usernameValidationMessage.textContent = 'Username can only contain letters, numbers, and underscores.';
+    } else {
+        usernameValidationMessage.textContent = '';
+    }
+});
+
+        emailInput.addEventListener('input', () => {
+            const emailValue = emailInput.value.trim();
+            if (emailValue === '') {
+                emailValidationMessage.textContent = 'Please enter your email.';
+            } else if (!/^\S+@\S+\.\S+$/.test(emailValue)) {
+                emailValidationMessage.textContent = 'Please enter a valid email address.';
+            } else {
+                emailValidationMessage.textContent = '';
+            }
+        });
+
+        passwordInput.addEventListener('input', () => {
+            const passwordValue = passwordInput.value;
+            const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+            if (!passwordPattern.test(passwordValue)) {
+                passwordValidationMessage.textContent = 'Password must contain at least one numeric digit, one uppercase letter, one lowercase letter, and one special character, and be at least 8 characters long.';
+            } else {
+                passwordValidationMessage.textContent = '';
+            }
+        });
+
+        confirmPasswordInput.addEventListener('input', () => {
+            const confirmPasswordValue = confirmPasswordInput.value;
+            const passwordValue = passwordInput.value;
+            if (confirmPasswordValue === '') {
+                confirmPasswordValidationMessage.textContent = 'Please confirm your password.';
+            } else if (confirmPasswordValue !== passwordValue) {
+                confirmPasswordValidationMessage.textContent = 'Passwords do not match.';
+            } else {
+                confirmPasswordValidationMessage.textContent = '';
+            }
+        });
+
+        // Get a reference to the form
+        const registrationForm = document.getElementById('registration-form');
+
+        // Function to validate the form on submit
+        function validateForm(event) {
+            // Check if all validation messages are empty
+            if (
+                firstNameValidationMessage.textContent ||
+                lastNameValidationMessage.textContent ||
+                usernameValidationMessage.textContent ||
+                emailValidationMessage.textContent ||
+                passwordValidationMessage.textContent ||
+                confirmPasswordValidationMessage.textContent
+            ) {
+                // Display a general error message if there are validation errors
+                alert('Please fix the form errors before submitting.');
+                event.preventDefault(); // Prevent form submission
+            }
+        }
+
+        // Attach the validateForm function to the form's submit event
+        registrationForm.addEventListener('submit', validateForm);
+    </script>
+    
+</body>
+
+</html>

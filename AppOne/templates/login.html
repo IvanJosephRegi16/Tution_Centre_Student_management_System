@@ -1,0 +1,194 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "img/bg-image.jpg" %}');
+        }
+
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .validation-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        ul li {
+            margin-right: 20px;
+        }
+
+        ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .registration-form {
+            width: 80%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .registration-form label,
+        .registration-form input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .registration-form button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .registration-form button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'signup' %}">Signup</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+            </ul>
+        </div>
+    </nav>
+------
+
+
+    <div class="registration-form">
+        <h2>Login Form</h2>
+        {% if messages %}
+        {{ message }}
+        {% endif %}
+        <form id="registration-form" method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username-input" name="username" required>
+            <div class="validation-message" id="username-validation-message"></div>
+
+
+            <label for="password">Password:</label>
+            <input type="password" id="password-input" name="password" required>
+            <div class="validation-message" id="password-validation-message"></div>
+
+            <a href="{% url 'password_reset' %}">Forgot Password</a>
+            <div>
+            <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Get references to the validation message elements and form fields
+        const usernameValidationMessage = document.getElementById('username-validation-message');
+        const passwordValidationMessage = document.getElementById('password-validation-message');
+        
+
+        const usernameInput = document.getElementById('username-input');
+        const passwordInput = document.getElementById('password-input');
+
+        // Validation logic for username, email, password, and confirm password
+// Validate username (no whitespace, only underscores allowed)
+
+    usernameInput.addEventListener('input', () => {
+    const usernameValue = usernameInput.value.trim();
+    if (usernameValue === '') {
+        usernameValidationMessage.textContent = 'Please enter your name.';
+    } else if (/\s/.test(usernameValue)) {
+        usernameValidationMessage.textContent = 'Username cannot contain spaces.';
+    } else if (!/^[a-zA-Z0-9_]*$/.test(usernameValue)) {
+        usernameValidationMessage.textContent = 'Username can only contain letters, numbers, and underscores.';
+    } else {
+        usernameValidationMessage.textContent = '';
+    }
+});
+
+    
+
+       // passwordInput.addEventListener('input', () => {
+            //const passwordValue = passwordInput.value;
+            //const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+            //if (!passwordPattern.test(passwordValue)) {
+                //passwordValidationMessage.textContent = 'Password must contain at least one numeric digit, one uppercase letter, one lowercase letter, and one special character, and be at least 8 characters long.';
+            //} else {
+               // passwordValidationMessage.textContent = '';
+            //}
+       // });
+
+
+        // Get a reference to the form
+        const registrationForm = document.getElementById('registration-form');
+
+        // Function to validate the form on submit
+        function validateForm(event) {
+            // Check if all validation messages are empty
+            if (
+                usernameValidationMessage.textContent ||
+                
+                passwordValidationMessage.textContent 
+               
+            ) {
+                // Display a general error message if there are validation errors
+                alert('Please fix the form errors before submitting.');
+                event.preventDefault(); // Prevent form submission
+            }
+        }
+
+        // Attach the validateForm function to the form's submit event
+        registrationForm.addEventListener('submit', validateForm);
+    </script>
+    
+    <script>
+        if (performance.navigation.type === 2) {
+            // The page was accessed via the back or forward button
+            window.location.href = "{% url 'login' %}";
+        }
+    </script>
+    
+</body>
+
+</html>
