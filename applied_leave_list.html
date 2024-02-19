@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Leave List</title>
+</head>
+<body>
+
+<h2>Applied Leave List</h2>
+
+{% if students %}
+    <ul>
+        {% for student in students %}
+            <li>
+                <strong>Username:</strong> {{ student.user.username }} |
+                <strong>Email:</strong> {{ student.email }} |
+                <!-- Add other fields you want to display -->
+                <strong>Reason for Leave:</strong> {{ student.leave_application.reason }}
+                <!-- Adjust the above line based on your actual model structure -->
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No students have applied for leave.</p>
+{% endif %}
+
+</body>
+</html>

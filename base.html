@@ -1,0 +1,113 @@
+import pygame
+import time
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Set up some constants
+WIDTH, HEIGHT = 800, 800
+DIMENSION = 8
+SQ_SIZE = HEIGHT // DIMENSION
+MAX_FPS = 15  # for animation
+IMAGES = {}
+
+# Initialize a dictionary of images
+def loadImages():
+    pieces = ['wp', 'bp', 'wn', 'bn', 'wb', 'bb', 'wR', 'bR',
+              'wN', 'bN', 'wB', 'bB', 'wQ', 'bQ']
+    for piece in pieces:
+        IMAGES[piece] = pygame.image.load('images/' + piece + '.png')
+
+# Handle player input
+def handleInput(screen, board, validMoves, selectedPiece, gameOver):
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            location = pygame.mouse.get_pos()
+            col = location[0] // SQ_SIZE
+            row = location[1] // SQ_SIZE
+            if selectedPiece == None:
+                piece = board[row][col]
+                if piece != '--':
+                    validMoves = getValidMoves(board, piece)
+                    if len(validMoves) > 0:
+                        selectedPiece = piece
+                        screen.blit(IMAGES[piece], (col * SQ_SIZE, row * SQ_SIZE))
+            else:
+                piece = board[row][col]
+                if piece == selectedPiece:
+                    selectedPiece = None
+                    screen.blit(IMAGES[piece], (col * SQ_SIZE, row * SQ_SIZE))
+                elif piece != '--' and piece in validMoves:
+                    selectedPiece = None
+                    move(board, selectedPiece, (row, col))
+                    validMoves = getValidMoves(board, board[row][col])
+                    screen.blit(IMAGES[piece], (col * SQ_SIZE, row * SQ_SIZE))
+    return board, validMoves, selectedPiece, gameOver
+
+# Determine valid moves for a piece
+def getValidMoves(board, piece):
+    moves = []
+    if piece != '--':
+        if piece[1] == 'p':
+            moves = pawnMoves(board, piece)
+        elif piece[1] == 'r':
+            moves = rookMoves(board, piece)
+        elif piece[1] == 'n':
+            moves = knightMoves(board, piece)
+        elif piece[1] == 'b':
+            moves = bishopMoves(board, piece)
+        elif piece[1] == 'q':
+            moves = queenMoves(board, piece)
+        elif piece[1] == 'k':
+            moves = kingMoves(board, piece)
+    return moves
+
+# Move function for a piece
+def move(board, piece, destination):
+    board[destination[0]][destination[1]] = piece
+    board[piece[0]][piece[1]] = '--'
+
+# Pawn moves function
+def pawnMoves(board, piece):
+    moves = []
+    if piece[0] - 1 >= 0:
+        if board[piece[0] - 1][piece[1]] == '--':
+            moves.append((piece[0] - 1, piece[1]))
+        if piece[0] - 1 >= 0 and piece[1] - 1 >= 0:
+            if board[piece[0] - 1][piece[1] - 1][0] != piece[0]:
+                moves.append((piece[0] - 1, piece[1] - 1))
+        if piece[0] - 1 >= 0 and piece[1] + 1 < DIMENSION:
+            if board[piece[0] - 1][piece[1] + 1][0] != piece[0]:
+                moves.append((piece[0] - 1, piece[1] + 1))
+    if piece[0] == DIMENSION - 1:
+        if board[piece[0] - 1][piece[1]] == '--':
+            moves.append((piece[0] - 1, piece[1]))
+            if piece[0] - 2 >= 0 and board[piece[0] - 2][piece[1]] == '--':
+                moves.append((piece[0] - 2, piece[1]))
+    return moves
+
+# Rook moves function
+def rookMoves(board, piece):
+    moves = []
+    for i in range(1, DIMENSION):
+        if piece[0] + i < DIMENSION and board[piece[0] + i][piece[1]] == '--':
+            moves.append((piece[0] + i, piece[1]))
+        elif piece[0] + i < DIMENSION and board[piece[0] + i][piece[1]] != '--':
+            break
+        if piece[0] - i >= 0 and board[piece[0] - i][piece[1]] == '--':
+            moves.append((piece[0] - i, piece[1]))
+        elif piece[0] - i >= 0 and board[piece[0] - i][piece[1]] != '--':
+            break
+        if piece[1] + i < DIMENSION and board[piece[0]][piece[1] + i] == '--':
+            moves.append((piece[0], piece[1] + i))
+        elif piece[1] + i < DIMENSION and board[piece[0]][piece[1] + i] != '--':
+            break
+        if piece[1] - i >= 0 and board[piece[0]][piece[1] - i] == '--':
+            moves.append((piece[0], piece[1] - i))
+        elif piece[1] - i >= 0 and board[piece[0]][piece[1] - i] != '--':
+            break
+    return moves

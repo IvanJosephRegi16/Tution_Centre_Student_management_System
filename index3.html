@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management System</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: #444;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #555;
+        }
+
+        .subfield-container {
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .subfield {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .subfield h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .subfield-content {
+            /* Add styles specific to subfield content here */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Staff Management System</h1>
+    </div>
+
+    <div class="navbar">
+        <a href="#attendance">Attendance</a>
+        <a href="#staffprofile">Staff Profile</a>
+        <a href="#leave">Leave</a>
+    </div>
+
+    <div class="subfield-container">
+        <div id="attendance" class="subfield">
+            <h2>Attendance</h2>
+            <div class="subfield-content">
+                <!-- Add content for attendance subfield here -->
+            </div>
+        </div>
+
+        <div id="staffprofile" class="subfield">
+            <h2>Staff Profile</h2>
+            <div class="subfield-content">
+                <!-- Add content for staff profile subfield here -->
+            </div>
+        </div>
+
+        <div id="leave" class="subfield">
+            <h2>Leave</h2>
+            <div class="subfield-content">
+                <!-- Add content for leave subfield here -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

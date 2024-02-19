@@ -1,0 +1,16 @@
+<!-- view_leave_requests.html -->
+
+{% block content %}
+<h2>Leave Requests</h2>
+<ul>
+    {% for leave_request in leave_requests %}
+        <li>
+            {{ leave_request.date }} - {{ leave_request.description }} - {{ leave_request.status }}
+            {% if user.role == 'ADMIN' %}
+                <a href="{% url 'manage_leave_request' leave_request.id 'approve' %}">Approve</a> |
+                <a href="{% url 'manage_leave_request' leave_request.id 'reject' %}">Reject</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

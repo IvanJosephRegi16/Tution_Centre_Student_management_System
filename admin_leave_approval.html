@@ -1,0 +1,32 @@
+<!-- admin_leave_approval.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Leave Approval</title>
+</head>
+
+<body>
+    <!-- Inside admin_leave_approval.html -->
+<h2>Leave Requests (Admin)</h2>
+{% for leave_request in leave_requests %}
+    <div>
+        <p>Date: {{ leave_request.date }}</p>
+        <p>Reason: {{ leave_request.reason }}</p>
+        <form method="post" action="{% url 'manage_leave_request' leave_request.id 'approve' %}">
+            {% csrf_token %}
+            <button type="submit">Approve</button>
+        </form>
+        <form method="post" action="{% url 'manage_leave_request' leave_request.id 'reject' %}">
+            {% csrf_token %}
+            <button type="submit">Reject</button>
+        </form>
+    </div>
+{% endfor %}
+
+</body>
+
+</html>

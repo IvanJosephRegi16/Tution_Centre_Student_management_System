@@ -1,0 +1,208 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Asure - Tuition Centre - Student Management System</title>
+    <style>
+        body {
+            background-image: url("{% static 'img/header1.jpg' %}");
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        select {
+            font-size: 16px;
+        }
+
+        button {
+            
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            border: 2px solid #333;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        
+
+        button a {
+            text-decoration: none;
+            color: black;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+           
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            
+        }
+
+
+
+    </style>
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- ... (your existing head content) ... -->
+</head>
+
+<body>
+
+    <button><a href="{% url 'generate_user' %}">Back</a></button>
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark">
+        <!-- ... (your existing topbar content) ... -->
+    </div>
+    {% if user.is_authenticated %}
+    {% comment %} <h3 class="font-weight-bold">Welcome {{user.first_name}}</h3> {% endcomment %}
+    {% endif %}
+    <script>
+        if (performance.navigation.type === 2) {
+            // The page was accessed via the back or forward button
+            window.location.href = "{% url 'login' %}";
+        }
+    </script>
+
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0">
+        <!-- ... (your existing navbar content) ... -->
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Form for Student Details -->
+    <div class="container mt-5">
+        
+        <h2>Student Details</h2>
+
+        {% comment %} <a href="{% url 'leave_application' %}" class="nav-item nav-link">Apply for leave</a> {% endcomment %}
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            
+
+
+            
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" required>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" required>
+
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+
+            <label for="User_name">User Name:</label>
+            <input type="text" name="User_name" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="button" onclick="generatePassword()">Generate Password</button>
+    
+
+            <label for="phone_no">Phone No:</label>
+            <input type="text" name="phone_no" required>
+
+
+            <label for="course">Course:</label>
+            <select name="course" required>
+                <option value="1">Class 6</option>
+                <option value="2">Class 7</option>
+                <option value="3">Class 8</option>
+                <option value="4">Class 9</option>
+                <option value="5">Class 10</option>
+            </select>
+
+           
+            <label for="gender">Gender:</label>
+            <select name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+
+               
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    function generatePassword() {
+        var length = 8,
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            retVal = "";
+        for (var i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n));
+        }
+        document.getElementById("password").value = retVal;
+    }
+</script>
+
+</html>

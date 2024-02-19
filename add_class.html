@@ -1,0 +1,67 @@
+{% block content %}
+    <style>
+        .add-class-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .add-class-form label {
+            margin-bottom: 5px;
+        }
+        .add-class-form input {
+            margin-bottom: 15px;
+        }
+        .add-class-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+        }
+        .add-class-form button:hover {
+            background-color: #45a049;
+        }
+        .added-classes {
+            list-style-type: none;
+            padding: 0;
+        }
+        .added-classes li {
+            background-color: #f2f2f2;
+            padding: 10px;
+            margin-bottom: 5px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .added-classes li:hover {
+            background-color: #ddd;
+        }
+    </style>
+
+    <h2>Add Class</h2>
+    <form method="post" action="{% url 'add_class' %}" class="add-class-form">
+        {% csrf_token %}
+        <label for="id_class_name">Class Name:</label>
+        <input type="text" name="class_name" required>
+        <!-- Add more fields as needed -->
+        <button type="submit">Add Class</button>
+    </form>
+
+    {% if classes %}
+        <h3>Added Classes:</h3>
+        <ul class="added-classes">
+            {% for class_obj in classes %}
+                <li>{{ class_obj.class_name }}</li>
+                <!-- Display other fields as needed -->
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% comment %} <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="excel_file">
+    <button type="submit">Submit</button>
+</form>
+
+<h3>Manually to add student<h3>
+    <button><a href="{% url 'myhome' %}">Add Student</a></button> {% endcomment %}
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Professional Page Design</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 600px;
+                margin: 50px auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            form {
+                margin-bottom: 20px;
+            }
+            input[type="file"] {
+                display: block;
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            button[type="submit"], button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                background-color: #007bff;
+                color: #fff;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+            h3 {
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="excel_file">
+                <button type="submit">Submit</button>
+            </form>
+    
+            <h3>Manually add student</h3>
+            <button><a href="{% url 'register_student' %}">Add Student</a></button>
+        </div>
+    </body>
+    </html>
+    
