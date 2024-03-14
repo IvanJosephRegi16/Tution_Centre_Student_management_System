@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Timetable</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+        /* Copied CSS styles related to header, nav, and animations from student_subjects.html */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            animation: backgroundShift 20s ease infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes backgroundShift {
+            0% { background: linear-gradient(to right, #6dd5ed, #2193b0); }
+            25% { background: linear-gradient(to right, #ff758c, #ff7eb3); }
+            50% { background: linear-gradient(to right, #f7971e, #ffd200); }
+            75% { background: linear-gradient(to right, #4b6cb7, #182848); }
+            100% { background: linear-gradient(to right, #6dd5ed, #2193b0); }
+        }
+
+        header, nav {
+            animation: slideIn 0.5s ease-out forwards;
+            width: 100%;
+            
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0); }
+        }
+
+        header, nav {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding : 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ddd;
+            transform: translateX(10px);
+        }
+
+        /* Original CSS styles for view_student_timetable.html */
+        html {
+            height: 100%;
+            overflow: auto; /* Allow scrolling */
+        }
+
+        body {
+            background: linear-gradient(45deg, #FFB75E, #ED8F03, #FFB75E, #ED8F03);
+            background-size: 400% 400%;
+            color: hsl(0, 0%, 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            animation: dancingBackground 15s ease infinite;
+            padding-bottom: 50px;
+        }
+
+        @keyframes dancingBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            
+            font-size: 2.5rem;
+            background: -webkit-linear-gradient(left, hsl(340, 100%, 50%), hsl(50, 100%, 50%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .timetable-entry {
+            background: black;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px hsla(0, 0%, 0%, 0.1);
+            margin: 1rem auto; /* Center the entry and add margin for vertical spacing */
+            transition: transform 0.5s ease;
+            transform: translateX(0);
+            display: block; /* Make each entry a block element */
+            max-width: 600px; /* Set a max-width for uniformity */
+        }
+
+        .timetable-entry:hover {
+            animation: jump 0.5s ease infinite alternate;
+        }
+
+        @keyframes jump {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        p {
+            color: white;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background: linear-gradient(to bottom, hsl(210, 100%, 70%), hsl(260, 100%, 80%));
+                
+            }
+
+            .timetable-entry {
+                padding: 1rem;
+            }
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white; /* Ensure text is white */
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000; /* Make sure the z-index is high to ensure visibility */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Copied header and nav from student_subjects.html -->
+    <header>
+        <h1>ASURE</h1>
+        <button><a href="{% url 'login' %}">Logout</a></button>
+    </header>
+
+    <nav>
+        <a href="{% url 'student' %}">Home</a>
+        <a href="{% url 'student_subjects' %}">Subjects</a>
+        <a href="{% url 'view_student_timetable' %}">Timetable</a>
+        <a href="#">Contact</a>
+        <a href="javascript:void(0)" onclick="toggleLeaveForm()">Leave</a>
+    </nav>
+
+    <!-- Adjust the padding-top to the height of the header and nav to prevent content from being hidden behind it -->
+    <div>
+        <h1>Your Timetable</h1>
+        {% for entry in timetable_entries %}
+            <div class="timetable-entry">
+                <p>Day: {{ entry.day }}</p>
+                <p>Subject: {{ entry.subject.subject_name }}</p>
+                <p>Time: {{ entry.registered_time }}</p>
+                
+            </div>
+        {% empty %}
+            <p>You have no timetable entries.</p>
+        {% endfor %}
+    </div>
+    <footer>
+        <p>&copy; 2024 ASURE. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

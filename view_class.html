@@ -1,63 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Your Page Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Classes</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            text-align: center;
-            margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, violet, pink);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            margin: 0;
+            color: white;
         }
 
-        a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            text-decoration: none;
-            color: #333;
-            background-color: #fff;
-            border: 2px solid #333;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
         }
 
-        a:hover {
-            background-color: #333;
-            color: #fff;
+        .class-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 10px;
-           
-            color: black;
+            background: linear-gradient(to right, Black, Green);
             border: none;
+            padding: 10px 20px;
+            color: white;
             border-radius: 5px;
             cursor: pointer;
+            margin: 10px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
         }
 
-        button a {
-            text-decoration: none;
-            color: black;
-            
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .class-list button {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <button><a href="{% url 'generate_user' %}">Back</a></button>
-    <a href="{% url 'class_details' class_number=1 %}">Class 1</a>
-    <a href="{% url 'class_details' class_number=2 %}">Class 2</a>
-    <a href="{% url 'class_details' class_number=3 %}">Class 3</a>
-    <a href="{% url 'class_details' class_number=4 %}">Class 4</a>
-    <a href="{% url 'class_details' class_number=5 %}">Class 5</a>
-    <a href="{% url 'class_details' class_number=6 %}">Class 6</a>
+    <h1>Classes</h1>
+    <div class="class-list">
+        {% for class in classes %}
+            <button onclick="location.href='{% url 'myclass_detail' class.id %}'">
+                {{ class.class_name }}
+            </button>
+        {% empty %}
+            <p>No classes found.</p>
+        {% endfor %}
+    </div>
+    <button class="back-button" onclick="location.href='{% url 'generate_user' %}'">Back</button>
 </body>
 </html>

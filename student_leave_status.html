@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Your existing head tags -->
+</head>
+<body>
+    <!-- Your existing structure, like header, nav, etc. -->
+
+    <section>
+        <h2>Leave Status</h2>
+        {% for leave_request in leave_requests %}
+            <div class="leave-request">
+                <p>Date: {{ leave_request.date }}</p>
+                <p>Subject: {{ leave_request.subject }}</p>
+                <p>Reason: {{ leave_request.reason }}</p>
+                <p>Status: {{ leave_request.get_status_display }}</p>
+                {% if leave_request.response_message %}
+                    <p>Response: {{ leave_request.response_message }}</p>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No leave requests submitted.</p>
+        {% endfor %}
+    </section>
+
+    <!-- Your existing footer, scripts, etc. -->
+</body>
+</html>

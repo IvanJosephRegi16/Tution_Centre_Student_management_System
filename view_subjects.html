@@ -81,18 +81,35 @@
         }
 
 
+        .subject-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .subject-name {
+            margin-right: 15px;
+        }
     </style>
 </head>
 <body>
     <button><a href="{% url 'generate_user' %}">Back</a></button>
-
     <h1>Subjects List</h1>
 
-    <ul>
-        {% for subject in subjects %}
-            <li>{{ subject.subject_name }}</li>
-        {% endfor %}
-    </ul>
+    {% for class_name, subjects in class_subjects.items %}
+        <h2>Class {{ class_name }}</h2>
+        <ul>
+            {% for subject in subjects %}
+                <li class="subject-item">
+                    <span class="subject-name">{{ subject.subject_name }}</span>
+                    <a href="{% url 'edit_subject' subject_id=subject.id %}">Edit</a>
+                    <form action="{% url 'delete_subject' subject_id=subject.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this subject?');">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
 
 </body>
 </html>

@@ -67,9 +67,14 @@
     <form method="post" action="{% url 'add_subject' %}">
         {% csrf_token %}
         <h1>Add a New Subject</h1>
+        <label for="class-name">Class:</label>
+        <select id="class-name" name="class_name">
+            {% for cls in classes %}
+                <option value="{{ cls.id }}">{{ cls.class_name }}</option>
+            {% endfor %}
+        </select>
         <label for="subject-name">Subject Name:</label>
         <input type="text" id="subject-name" name="subject_name" required>
-        
         <button type="submit">Add Subject</button>
     </form>
 

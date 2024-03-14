@@ -1,67 +1,81 @@
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Class</title>
     <style>
-        .add-class-form {
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, violet, pink);
             display: flex;
-            flex-direction: column;
-            max-width: 300px;
-            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .add-class-form label {
-            margin-bottom: 5px;
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .add-class-form input {
-            margin-bottom: 15px;
-        }
-        .add-class-form button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
+
+        button {
+            background: linear-gradient(to right, violet, pink);
             border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
             cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            transition-duration: 0.4s;
+            transition: transform 0.3s ease;
         }
-        .add-class-form button:hover {
-            background-color: #45a049;
+
+        button:hover {
+            transform: scale(1.05);
         }
-        .added-classes {
-            list-style-type: none;
-            padding: 0;
-        }
-        .added-classes li {
-            background-color: #f2f2f2;
-            padding: 10px;
-            margin-bottom: 5px;
-            text-align: center;
+
+        input, textarea {
+            border: 2px solid #ddd;
             border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s ease;
         }
-        .added-classes li:hover {
-            background-color: #ddd;
+
+        input:focus, textarea:focus {
+            border-color: violet;
+            outline: none;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #999;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animated-gradient {
+            background: linear-gradient(-45deg, violet, pink, violet, pink);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        .animated-gradient:hover {
+            animation: gradient 3s ease infinite;
         }
     </style>
-
-    <h2>Add Class</h2>
-    <form method="post" action="{% url 'add_class' %}" class="add-class-form">
+</head>
+<body>
+   
+    <form method="post">
         {% csrf_token %}
-        <label for="id_class_name">Class Name:</label>
-        <input type="text" name="class_name" required>
-        <!-- Add more fields as needed -->
+        {{ form.as_p }}
         <button type="submit">Add Class</button>
     </form>
-
-    {% if classes %}
-        <h3>Added Classes:</h3>
-        <ul class="added-classes">
-            {% for class_obj in classes %}
-                <li>{{ class_obj.class_name }}</li>
-                <!-- Display other fields as needed -->
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endblock %}
+</body>
+</html>

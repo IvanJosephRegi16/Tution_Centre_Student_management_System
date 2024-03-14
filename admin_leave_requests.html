@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leave Requests</title>
+    <!-- include stylesheets and other head elements -->
+</head>
+<body>
+    <!-- Your header, sidebar, etc. -->
+
+    <div>
+        <h2>Leave Requests</h2>
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Date</th>
+                <th>Subject</th>
+                <th>Reason</th>
+                <th>Action</th>
+            </tr>
+            {% for request in leave_requests %}
+            <tr>
+                <td>{{ request.student.username }}</td>
+                <td>{{ request.date }}</td>
+                <td>{{ request.subject }}</td>
+                <td>{{ request.reason }}</td>
+                <td>
+                    <a href="{% url 'approve_leave_request' request.id %}">Approve</a>
+                    <a href="{% url 'reject_leave_request' request.id %}">Reject</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Your footer -->
+</body>
+</html>

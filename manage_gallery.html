@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Gallery</title>
+    <!-- Include Bootstrap CSS if needed -->
+</head>
+<body>
+
+<div class="container">
+    <h2>Manage Gallery</h2>
+    <form action="{% url 'upload_gallery_item' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="file" name="file" required>
+        <select name="category">
+            <option value="public">Public</option>
+            <option value="class_6">Class 6</option>
+            <!-- More options for each class -->
+            <option value="class_7">Class 7</option>
+            <option value="class_8">Class 8</option>
+            <option value="class_9">Class 9</option>
+            <option value="class_10">Class 10</option>
+        </select>
+        <button type="submit">Upload</button>
+    </form>
+</div>
+
+</body>
+</html>

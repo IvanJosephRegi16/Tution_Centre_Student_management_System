@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Gallery</title>
+</head>
+<body>
+
+    <section>
+        <h2>Gallery</h2>
+        {% for item in gallery_items %}
+            <div class="gallery-item">
+                <h3>{{ item.title }}</h3>
+                <!-- Use the file's URL to display the image or handle video -->
+                <img src="{{ item.file.url }}" alt="{{ item.title }}" style="max-width: 100%; height: auto;">
+                {% elif item.is_video %}
+                    <video controls style="width: 100%; height: auto;">
+                        <source src="{{ item.file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No gallery items to display.</p>
+        {% endfor %}
+    </section>
+</body>
+</html>
