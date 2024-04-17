@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.smartschoolerp.com/wp-content/uploads/2022/12/attendance-management.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Higher z-index to ensure header is on top */
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            text-align: center;
+            position: fixed;
+            top: 50px;
+            width: 100%;
+            z-index: 1000; /* Higher z-index to ensure nav is on top */
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ddd;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            margin-top: 120px; /* Adjust top margin to not be hidden by fixed nav */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: appear 0.5s ease-in-out forwards;
+        }
+        .back-button {
+            margin-top: 120px; /* Same as .table-container to align with the table */
+            display: block;
+            width: fit-content;
+            padding: 10px 20px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #367c39;
+            transform: translateY(-2px);
+        }
+
+        @keyframes appear {
+            0% {opacity: 0; transform: scale(0.9);}
+            100% {opacity: 1; transform: scale(1);}
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        @media screen and (max-width: 600px) {
+            nav {
+                top: 40px;
+            }
+            header {
+                padding: 5px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'student' %}" class="back-button">Back</a>
+    <div class="background-image"></div> <!-- Background image with blur -->
+    <div class="content"> <!-- Content wrapper to keep content unblurred -->
+        
+        <nav>
+            <a href="{% url 'student' %}">Home</a>
+            <a href="javascript:void(0)" onclick="toggleLeaveForm()">Leave</a>
+            <a href="{% url 'student_subjects' %}">Subjects</a>
+            <a href="{% url 'view_student_timetable' %}">Timetable</a>
+            <a href="{% url 'student_attendance' %}">Attendance</a>
+            <a href="{% url 'submit_leave_request' %}" onclick="toggleLeaveForm()">Leave</a>
+            <a href="#contact">Contact</a>
+            
+        </nav>
+        <div class="table-container">
+            <h2 style="text-align: center;">Attendance Records</h2>
+            <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Subject</th>
+                    <th>1st Hour</th>
+                    <th>2nd Hour</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in attendance_records %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.subject.subject_name }}</td>
+                    <td>{{ record.first_hour|yesno:"Present,Absent" }}</td>
+                    <td>{{ record.second_hour|yesno:"Present,Absent" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4">No attendance records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

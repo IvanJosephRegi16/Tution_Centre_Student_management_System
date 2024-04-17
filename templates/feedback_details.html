@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Details</title>
+</head>
+<body>
+    <h1>Feedback Details</h1>
+    <div class="feedback-list">
+        {% for feedback in feedbacks %}
+            <div class="feedback">
+                
+                <p><strong>Subject:</strong> {{ feedback.subject }}</p>
+                <p><strong>Feedback:</strong> {{ feedback.feedback }}</p>
+                <p><strong>Weak Feedback:</strong> {{ feedback.weak_feedback }}</p>
+                <p><strong>Strong Feedback:</strong> {{ feedback.strong_feedback }}</p>
+                <p><strong>Timestamp:</strong> {{ feedback.timestamp }}</p>
+                <p><strong>Selected Options:</strong></p>
+                <ul>
+                    {% for option in selected_options %}
+                        {% if option.feedback_student_id == feedback.id %}
+                            <li>{{ option }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <hr>
+        {% empty %}
+            <p>No feedbacks found.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

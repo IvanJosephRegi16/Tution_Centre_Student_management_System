@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sessions</title>
+</head>
+<body>
+    <h1>Sessions</h1>
+    <ul>
+        {% for session in sessions %}
+            <li>{{ session.session_name }}: from {{ session.start_time }} to {{ session.end_time }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

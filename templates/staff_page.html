@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            overflow: auto;
+            margin: 0;
+            padding-top: 70px;
+            background: #ecedf0; /* Light grey background */
+            font-weight: bold; /* Make all fonts bold */
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background: linear-gradient(to right, #ffafbd 0%, #ffc3a0 100%); /* Gentle pink to orange gradient */
+            color: Black;
+            padding-top: 20px;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s;
+            color: Black; /* For better visibility on gradient */
+        }
+
+        .sidebar a:not(.logout-button):hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Light hover effect */
+        }
+
+        .logout-button {
+            background-color: #f44336; /* Material red for contrast */
+            text-align: center;
+            padding: 10px 20px;
+            margin-top: auto; /* Push to bottom */
+            transition: background-color 0.3s ease-in-out;
+            border: none; /* Remove border */
+            border-radius: 0; /* Square corners */
+        }
+
+        .logout-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .content {
+            margin-left: 250px; /* Space for sidebar */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            height: calc(100vh - 140px);
+            transition: all 0.3s ease-in-out;
+            background: linear-gradient(to right, #ffafbd 0%, #ffc3a0 100%); /* Gentle pink to orange gradient */
+        }
+
+        .welcome-container {
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent for glass effect */
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease;
+            position: relative; /* For the glow effect */
+            overflow: hidden; /* Keeps the pseudo-element within the container */
+        }
+        
+        .welcome-container:hover {
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            transform: scale(1.02); /* Slight scale on hover */
+        }
+
+        .welcome-container:before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%;
+            bottom: -50%; left: -50%;
+            z-index: -1;
+            background: linear-gradient(45deg, #6dd5ed, #2193b0);
+            border-radius: 50%;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .welcome-container:hover:before {
+            opacity: 1;
+            transform: scale(2);
+        }
+
+        .fixed-header {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            z-index: 10; /* Ensure it stays on top of other content */
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .welcome-message:hover {
+            text-shadow: 0 0 10px #2193b0; /* Subtle text glow effect */
+        }
+
+    /* Styles for bubble effect */
+        .bubble {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 100%;
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            animation: rise 3s ease-in forwards;
+        }
+
+        @keyframes rise {
+            0% { bottom: -100px; opacity: 0.7; }
+            100% { bottom: 100%; opacity: 0; }
+        }
+
+        .welcome-message, .welcome-container div, .welcome-container li {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold; /* Makes text bold */
+            margin-bottom: 20px;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .welcome-message:hover, .welcome-container div:hover, .welcome-container li:hover {
+            text-shadow: 0 0 10px #2193b0; /* Glow effect on hover */
+        }
+    </style>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body onclick="createBubble(event)">
+    <!-- Sidebar with glassmorphism effect -->
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <a href="{% url 'staffpage' %}">Home</a>
+        <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+        <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+        <a href="{% url 'upload_notes' %}">Upload Notes</a>
+        <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+        <a href="{% url 'attendance_view' %}">Student Attendance</a>
+        <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+        <a href="{% url 'online_class' %}">Online Class</a>
+        <a href="{% url 'view_marks' %}">Marks</a> <!-- New link for Marks -->
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="fixed-header">
+            <div class="welcome-message">ASURE</div>
+        </div>
+        <div class="welcome-container">
+            <div class="welcome-message">{{ welcome_message }}</div>
+            <div><strong>Class:</strong> {{ class_name }}</div> <!-- Bold class label -->
+            <div><strong>Subjects:</strong></div>
+            <ul>
+                {% for subject_name in subject_names %}
+                    <li><strong>{{ subject_name }}</strong></li> <!-- Bold subject names -->
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="leave-actions">
+            <h3>Action of Leave</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in leave_requests %}
+                    <tr>
+                        <td>{{ request.date|date:"Y-m-d" }}</td>
+                        <td>{{ request.reason }}</td>
+                        <td>{{ request.get_status_display }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No leave requests.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function createBubble(event) {
+            const bubble = document.createElement("div");
+            bubble.classList.add("bubble");
+            document.body.appendChild(bubble);
+
+            // Set bubble properties
+            const size = Math.random() * 60 + 10;
+            bubble.style.height = bubble.style.width = size + 'px';
+            bubble.style.left = (event.clientX - size / 2) + 'px';
+
+            // Remove after animation
+            bubble.addEventListener('animationend', function() {
+                bubble.remove();
+            });
+        }
+    </script>
+</body>
+</html>

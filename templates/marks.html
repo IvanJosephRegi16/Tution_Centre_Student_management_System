@@ -1,0 +1,174 @@
+
+                            <!DOCTYPE html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <title>Enter Marks</title>
+                                <style>
+                                    body {
+                                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                        background-color: #f4f4f4;
+                                        margin: 0;
+                                        display: flex;
+                                    }
+                                    .sidebar {
+                                        position: fixed;
+                                        top: 0;
+                                        left: 0;
+                                        width: 250px;
+                                        height: 100%;
+                                        background-color: #333;
+                                        padding-top: 20px;
+                                        color: white;
+                                        z-index: 1000;
+                                    }
+                                    .sidebar h2 {
+                                        color: #fff;
+                                        text-align: center;
+                                    }
+                                    .sidebar a {
+                                        color: #fff;
+                                        text-decoration: none;
+                                        padding: 10px 20px;
+                                        display: block;
+                                        transition: background-color 0.3s;
+                                    }
+                                    .sidebar a:hover, .sidebar a:focus {
+                                        background-color: #007bff;
+                                    }
+                                    .sidebar .logout-button {
+                                        background-color: #d9534f;
+                                        color: white;
+                                        text-align: center;
+                                        padding: 10px 20px;
+                                        transition: background-color 0.3s;
+                                    }
+                                    .sidebar .logout-button:hover, .sidebar .logout-button:focus {
+                                        background-color: #c9302c;
+                                    }
+                                    .content {
+                                        margin-left: 250px; /* Space for the sidebar */
+                                        flex-grow: 1;
+                                        padding: 20px;
+                                    }
+                                    .container {
+                                        max-width: 600px;
+                                        margin: auto;
+                                        background: #fff;
+                                        padding: 20px;
+                                        border-radius: 8px;
+                                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                    }
+                                    h2 {
+                                        text-align: center;
+                                        color: #444;
+                                    }
+                                    label {
+                                        display: block;
+                                        margin: 10
+                            px 0 5px;
+                            }
+                            input[type=number], select, input[type=text] {
+                            width: 100%;
+                            padding: 10px;
+                            margin-bottom: 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                            box-sizing: border-box;
+                            }
+                            input[type=submit], input[type=button] {
+                            width: 100%;
+                            padding: 10px;
+                            background-color: #5cb85c;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            margin-bottom: 10px;
+                            }
+                            input[type=submit]:hover, input[type=button]:hover {
+                            background-color: #4cae4c;
+                            }
+                            input[readonly] {
+                            background-color: #e9e9e9;
+                            }
+                            </style>
+                            <script>
+                            function calculateResults() {
+                            var scoredMarks = parseInt(document.getElementById('scored_marks').value) || 0;
+                            var totalMarks = 50;
+                            var percentage = (scoredMarks / totalMarks) * 100;
+                            var grade;
+                            if (scoredMarks >= 45) grade = 'S';
+                            else if (scoredMarks >= 40) grade = 'A+';
+                            else if (scoredMarks >= 35) grade = 'A';
+                            else if (scoredMarks >= 30) grade = 'B+';
+                            else if (scoredMarks >= 25) grade = 'B';
+                            else if (scoredMarks >= 20) grade = 'C';
+                            else grade = 'F';
+                            document.getElementById('percentage').value = percentage.toFixed(2);
+                            document.getElementById('grade').value = grade;
+                            }
+                            </script>
+                            
+                            </head>
+                            <body>
+                                <div class="sidebar">
+                                    <h2>Staff Dashboard</h2>
+                                    <a href="{% url 'staffpage' %}">Home</a>
+                                    <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+                                    <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+                                    <a href="{% url 'upload_notes' %}">Upload Notes</a>
+                                    <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+                                    <a href="{% url 'attendance_view' %}">Student Attendance</a>
+                                    <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+                                    <a href="{% url 'online_class' %}">Online Class</a>
+                                    <a href="{% url 'view_marks' %}">Marks</a>
+                                    <a href="{% url 'login' %}" class="logout-button">Logout</a>
+                                </div>
+                            php
+                            Copy code
+                            <div class="content">
+                                <div class="container">
+                                    <h2>Enter Marks</h2>
+                                    <form method="post" action="{% url 'submit_marks' %}">
+                                        {% csrf_token %}
+                                        <label for="month">Select Month:</label>
+                                        <select name="month" id="month">
+                                            {% for month in months %}
+                                            <option value="{{ month }}">{{ month }}</option>
+                                            {% endfor %}
+                                        </select>
+                            
+                                        <label for="student_id">Select Student:</label>
+                                        <select name="student_id" id="student_id">
+                                            {% for student in students %}
+                                            <option value="{{ student.user_id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                            
+                                        <label for="subject_name">Subject Name:</label>
+                                        <input type="text" name="subject_name" id="subject_name" value="{{ subject.subject_name }}" readonly>
+                            
+                                        <label for="total_marks">Total Marks:</label>
+                                        <input type="number" id="total_marks" name="total_marks" value="50" readonly>
+                            
+                                        <label for="scored_marks">Scored Marks:</label>
+
+                                        <input type="number" name="scored_marks" id="scored_marks">
+
+                                        <label for="grade">Grade:</label>
+                                        <input type="text" id="grade" name="grade" readonly>
+                            
+                                        <label for="percentage">Percentage:</label>
+                                        <input type="text" id="percentage" name="percentage" readonly>
+                            
+                                        <input type="button" value="Calculate" onclick="calculateResults();">
+                                        <input type="submit" value="Submit">
+                                    </form>
+                                </div>
+                            </div>
+                        </body>
+                        </html>
+
+

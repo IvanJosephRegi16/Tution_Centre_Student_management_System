@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Timetable</title>
+    <!-- Include your styling here -->
+</head>
+<body>
+    <h1>Your Timetable</h1>
+    {% for day, entries in timetable_by_day.items %}
+        <h3>{{ day }}</h3>
+        {% for entry in entries %}
+            <div>
+                <!-- Display subject name -->
+                <p>Subject: {{ entry.subject.subject_name }}</p>
+                
+                <!-- Display class name if it exists -->
+                <p>Class: {% if entry.subject.class_name %}{{ entry.subject.class_name.class_name }}{% else %}No class assigned{% endif %}</p>
+                
+                <!-- Display start time -->
+                <p>Time: {{ entry.start_time }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

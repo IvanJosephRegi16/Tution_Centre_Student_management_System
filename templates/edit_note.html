@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Note</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f3f3;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="file"] {
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            transition: border-color .3s;
+        }
+
+        input[type="text"]:hover, input[type="file"]:hover {
+            border-color: #9ecaed;
+            box-shadow: 0 0 10px #9ecaed;
+        }
+
+        input[type="text"]:focus, input[type="file"]:focus {
+            border-color: #3ac162;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            font-size: 18px;
+            color: white;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+            padding: 10px 15px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color .3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #449d44;
+        }
+    </style>
+</head>
+<body>
+    <h2>Edit Note</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_chapter">Chapter:</label>
+            <input type="text" id="id_chapter" name="chapter">
+        </div>
+        <div class="form-group">
+            <label for="id_topic">Topic:</label>
+            <input type="text" id="id_topic" name="topic">
+        </div>
+        <div class="form-group">
+            <label for="id_pdf_file">PDF File:</label>
+            <input type="file" id="id_pdf_file" name="pdf_file">
+        </div>
+        <button type="submit">Update Note</button>
+    </form>
+</body>
+</html>

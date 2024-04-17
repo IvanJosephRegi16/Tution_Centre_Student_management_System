@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Timetable</title>
+    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"> {% endcomment %}
+    <style>
+        body {
+            background: linear-gradient(to right, #a1ffce, #faffd1);
+            font-family: 'Arial', sans-serif;
+            font-weight: bold; /* Make all fonts bold */
+            color: #333;
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+    
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #005c97;
+        }
+    
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    
+        th, td {
+            padding: 12px;
+            text-align: left;
+            transition: background-color 0.3s, transform 0.3s;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold; /* Make table fonts bold */
+            color: Blue;
+        }
+    
+        th {
+            background-color: #008080;
+            color: white;
+        }
+    
+        tr:nth-child(even) {background-color: #f0e6ef;}
+        tr:nth-child(odd) {background-color: #e0ebeb;}
+    
+        tr:hover {background-color: #d5f4e6;}
+    
+        td:hover {
+            color: #154360;
+            transform: scale(1.03);
+        }
+    
+        input[type="submit"] {
+            background-color: #24a0ed;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold; /* Make button fonts bold */
+        }
+    
+        input[type="submit"]:hover {
+            background-color: white;
+            color: #24a0ed;
+            border: 2px solid #24a0ed;
+        }
+    </style>
+    
+</head>
+<body>
+
+    <h2>Class Timetables</h2>
+    <button><a href="{% url 'generate_user' %}">Back</a></button>
+    {% for class_name, timetable in class_timetables.items %}
+        <h3>{{ class_name }}</h3>
+        <table>
+            <tr>
+                <th>Day</th>
+                <th>Period (Subject)</th>
+                <th>Actions</th>
+            </tr>
+            {% for day, periods in timetable.items %}
+            <tr>
+                <td>{{ day }}</td>
+                <td>
+                    {% for period_id, subject_name in periods %}
+                        <span>{{ subject_name }}</span>
+                        <!-- Form to delete a period -->
+                        <form method="post" action="{% url 'delete_timetable_entry' period_id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="class_number" value="{{ class_number }}">
+                            <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this period?');">
+                        </form>
+                    {% empty %}
+                        No period
+                    {% endfor %}
+                </td>
+                <td>
+                    <!-- Form to add a new period -->
+                    <form method="post" action="{% url 'add_timetable' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="day" value="{{ day }}">
+                        <input type="hidden" name="class_number" value="{{ class_number }}">
+                        <!-- Include other fields such as subject, time, etc. -->
+                        <input type="submit" value="Add Period">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+</body>
+</html>

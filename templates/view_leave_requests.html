@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Requests</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e8f0fe;
+        }
+        a {
+            text-decoration: none;
+            color: Red;
+            padding: 6px 12px;
+            margin: 4px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        a.approve {
+            background-color: #28a745;
+        }
+        a.reject {
+            background-color: #dc3545;
+        }
+        a.approve:hover {
+            background-color: #218838;
+        }
+        a.reject:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <button><a href="{% url 'generate_user' %}">Back</a></button>
+z
+<table>
+    <tr>
+        <th>Student</th>
+        <th>Date</th>
+        <th>Subject</th>
+        <th>Reason</th>
+        <th>Action</th>
+    </tr>
+    {% for leave_request in leave_requests %}
+    <tr>
+        <td>{{ leave_request.student.user.username }}</td> <!-- Updated path -->
+        <td>{{ leave_request.date }}</td>
+        <td>{{ leave_request.subject.subject_name }}</td>
+        <td>{{ leave_request.reason }}</td>
+        <td>
+            <a href="{% url 'approve_leave_request' leave_request.id %}">Approve</a>
+            <a href="{% url 'reject_leave_request' leave_request.id %}">Reject</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

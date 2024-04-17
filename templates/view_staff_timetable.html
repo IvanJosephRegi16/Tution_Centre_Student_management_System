@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Timetable</title>
+    <style>
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #333;
+            padding-top: 20px;
+            color: white;
+            z-index: 1;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s, transform 0.3s ease-in-out;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+            transform: translateX(5px);
+        }
+
+        /* Main page styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            color: #333;
+            margin: 0;
+            padding-left: 250px; /* Space for sidebar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: margin 0.3s ease-in-out;
+        }
+
+        .timetable {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .timetable-entry {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            padding: 15px;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .timetable-entry:hover {
+            transform: translateX(10px);
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .day, .subject, .session-time {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .day {
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #555;
+        }
+
+        .subject {
+            font-size: 1.3em;
+            color: #666;
+        }
+
+        .session-time {
+            font-style: italic;
+            color: #777;
+        }
+
+        h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-left: 0;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .timetable {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <a href="{% url 'staffpage' %}">Home</a>
+        <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+        <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+        <a href="{% url 'upload_notes' %}">Upload Notes</a>
+        <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+        <a href="{% url 'attendance_view' %}">Student Attendance</a>
+        <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+        <a href="{% url 'online_class' %}">Online Class</a>
+        <a href="{% url 'view_marks' %}">Marks</a> <!-- New link for Marks -->
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>'
+    <div class="timetable">
+        <h2>Your Timetable</h2>
+        {% for entry in timetable_entries %}
+        <div class="timetable-entry">
+        <div class="day">Day: {{ entry.day }}</div>
+        <div class="subject">Subject: {{ entry.subject.subject_name }}</div>
+        <!-- If you have start and end times in your Timetable model, replace the text here -->
+        <div class="session-time">Morning Batch: 6:00 - 8:00 AM <br> Evening Batch 6:00 - 8:00 PM</div>
+        </div>
+        {% empty %}
+        <div class="timetable-entry">
+        <p>No timetable entries found.</p>
+        </div>
+        {% endfor %}
+        </div>
+
+</body>
+</html>

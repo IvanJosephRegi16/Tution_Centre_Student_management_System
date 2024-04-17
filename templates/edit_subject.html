@@ -1,0 +1,16 @@
+<!-- edit_subject.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... Your head content ... -->
+</head>
+<body>
+    <h1>Edit Subject</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Subject</button>
+    </form>
+    <a href="{% url 'view_subjects' %}">Cancel</a>
+</body>
+</html>

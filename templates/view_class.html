@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Classes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, violet, pink);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .class-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            background: linear-gradient(to right, Black, Green);
+            border: none;
+            padding: 15px 30px; /* Increased padding for larger buttons */
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            font-size: 1.2rem; /* Larger font size */
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .class-list button {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            animation: pulse 2s infinite;
+            padding: 10px 20px; /* Adjust as needed for back button */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="location.href='{% url 'generate_user' %}'">Back</button>
+    <h1>Classes</h1>
+    <div class="class-list">
+        {% for class in classes %}
+            <button onclick="location.href='{% url 'myclass_detail' class.id %}'">
+                {{ class.class_name }}
+            </button>
+        {% empty %}
+            <p>No classes found.</p>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>

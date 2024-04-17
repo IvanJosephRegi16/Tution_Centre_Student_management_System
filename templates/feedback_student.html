@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Feedback Questions</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <select name="subject" id="subject" required>
+                    <option value="">Select a Subject</option>
+                    {% for subject in enrolled_subjects %}
+                        <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <ul>
+                {% for question in questions %}
+                <li>{{ question.question_text }}</li>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feedback_option_{{ question.id }}" id="excellent_{{ question.id }}" value="excellent">
+                    <label class="form-check-label" for="excellent_{{ question.id }}">Excellent</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feedback_option_{{ question.id }}" id="very_good_{{ question.id }}" value="very_good">
+                    <label class="form-check-label" for="very_good_{{ question.id }}">Very Good</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feedback_option_{{ question.id }}" id="good_{{ question.id }}" value="good">
+                    <label class="form-check-label" for="good_{{ question.id }}">Good</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feedback_option_{{ question.id }}" id="not_satisfactory_{{ question.id }}" value="not_satisfactory">
+                    <label class="form-check-label" for="not_satisfactory_{{ question.id }}">Not Satisfactory</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="feedback_option_{{ question.id }}" id="bad_{{ question.id }}" value="bad">
+                    <label class="form-check-label" for="bad_{{ question.id }}">Bad</label>
+                </div>
+                {% endfor %}
+            </ul>
+            <div class="form-group">
+                <label for="weak_feedback">Weak Feedback:</label>
+                <textarea class="form-control" id="weak_feedback" name="weak_feedback"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="strong_feedback">Strong Feedback:</label>
+                <textarea class="form-control" id="strong_feedback" name="strong_feedback"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </form>
+    </div>
+</body>
+</html>

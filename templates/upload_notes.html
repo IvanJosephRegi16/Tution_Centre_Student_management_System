@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Notes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #333;
+            padding-top: 20px;
+            color: white;
+            z-index: 1000;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding-left: 250px; /* Space for sidebar */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #007bff;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .success-message {
+            color: green;
+            background-color: #ebf9eb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <a href="{% url 'staffpage' %}">Home</a>
+        <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+        <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+        <a href="{% url 'upload_notes' %}">Upload Notes</a>
+        <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+        <a href="{% url 'attendance_view' %}">Student Attendance</a>
+        <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+        <a href="{% url 'online_class' %}">Online Class</a>
+        <a href="{% url 'view_marks' %}">Marks</a> <!-- New link for Marks -->
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    <div class="container">
+        <h2>Upload Notes</h2>
+        <p>Class: {{ class_name.class_name }}</p>
+        <p>Subject: {{ subject.subject_name }}</p>
+
+        <!-- Success message container -->
+        <div id="success-message" class="success-message"></div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="class_name" value="{{ class_name.id }}">
+            <input type="hidden" name="subject" value="{{ subject.id }}">
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <!-- Include jQuery library (from CDN for simplicity) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // If there are messages, display them in the success-message div and hide after 3 seconds
+            {% if messages %}
+                let messageHtml = '';
+                {% for message in messages %}
+                    messageHtml += '<p>{{ message }}</p>';
+                {% endfor %}
+                $('#success-message').html(messageHtml).show();
+                setTimeout(function() {
+                    $('#success-message').fadeOut('slow');
+                }, 3000);
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

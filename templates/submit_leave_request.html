@@ -1,0 +1,8 @@
+<!-- This is a simplified version, add your complete HTML structure -->
+<form method="post" action="{% url 'submit_leave_request' %}">
+    {% csrf_token %}
+    <input type="date" name="date" required>
+    <input type="text" name="subject" required>
+    <textarea name="reason" required></textarea>
+    <button type="submit">Submit</button>
+</form>

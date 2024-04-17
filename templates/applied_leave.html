@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Leave Details</title>
+</head>
+<body>
+
+<h2>Applied Leave Details</h2>
+
+{% if student %}
+    <p><strong>Username:</strong> {{ student.user.username }}</p>
+    <p><strong>Email:</strong> {{ student.email }}</p>
+    <!-- Add other fields you want to display -->
+    <p><strong>Reason for Leave:</strong> {{ student.leave_application.reason }}</p>
+    <!-- Adjust the above line based on your actual model structure -->
+{% else %}
+    <p>Student not found.</p>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Leave Requests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Staff Leave Requests</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Staff Name</th>
+                    <th>Date</th>
+                    <th>Class</th> <!-- Added table header for class -->
+                    <th>Subject</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Django template for loop to iterate over leave requests -->
+                {% for request in leave_requests %}
+                <tr>
+                    <td>{{ request.staff.user.get_full_name }}</td>
+                    <td>{{ request.date|date:"Y-m-d" }}</td>
+                    <td>{{ request.staff_class_name }}</td> <!-- Display the class name -->
+                    <td>{{ request.subject.subject_name }}</td>
+                    <td>{{ request.reason }}</td>
+                    <td>{{ request.get_status_display }}</td>
+                    <td>
+                        <a href="{% url 'approve_leave_request' request.id %}" class="btn btn-success btn-sm">Approve</a>
+                        <a href="{% url 'reject_leave_request' request.id %}" class="btn btn-danger btn-sm">Reject</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Class</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(-45deg, #23A6D5, #23D5AB);
+            background-size: 400% 400%;
+            animation: GradientBackground 15s ease infinite;
+        }
+
+        @keyframes GradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #23A6D5;
+            padding: 10px 15px;
+            display: inline-block;
+            border-radius: 5px;
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            transform: translateX(10px);
+            background-color: #23D5AB;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Subjects</h2>
+        <ul>
+            {% for subject in subjects %}
+                <li><a href="{% url 'view_meet_link' subject.id %}">{{ subject.subject_name }}</a></li>
+            {% empty %}
+                <li>No subjects registered.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

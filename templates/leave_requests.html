@@ -1,0 +1,7 @@
+<!-- Simplified version -->
+{% for request in requests %}
+    <p>{{ request.user.username }} - {{ request.subject }} - {{ request.status }}
+    <a href="{% url 'update_leave_request' request.id 'approve' %}">Approve</a>
+    <a href="{% url 'update_leave_request' request.id 'reject' %}">Reject</a>
+    </p>
+{% endfor %}

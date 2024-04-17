@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Academic Marks</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                background-color: #f7f7f7;
+                margin: 0;
+                padding: 0;
+            }
+    
+            header {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+    
+            header a {
+                color: white;
+                text-decoration: none;
+                padding: 8px 16px;
+                background-color: #0062cc;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+    
+            header a:hover {
+                background-color: #0056b3;
+            }
+    
+            section {
+                max-width: 800px;
+                margin: 30px auto;
+                padding: 20px;
+                background: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+            }
+    
+            h1 {
+                margin: 0;
+            }
+    
+            h2 {
+                color: #333;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
+            }
+    
+            ul {
+                list-style: none;
+                padding: 0;
+            }
+    
+            li {
+                background-color: #efefef;
+                margin-bottom: 8px;
+                padding: 12px;
+                border-radius: 6px;
+                transition: background-color 0.3s ease;
+            }
+    
+            li:hover {
+                background-color: #e2e2e2;
+            }
+    
+            li a {
+                text-decoration: none;
+                color: #007bff;
+                font-weight: bold;
+            }
+    
+            li a:hover {
+                text-decoration: underline;
+            }
+    
+            footer {
+                text-align: center;
+                padding: 20px;
+                background-color: #007bff;
+                color: white;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+            .remarks {
+                font-size: 1.2rem;
+                margin-top: 2rem;
+                text-align: center;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+<body>
+    <header>
+        <a href="{% url 'student' %}" class="back-button">Back</a>
+        <h1>Academic Marks</h1>
+        
+    </header>
+
+    <!-- Content Section -->
+    <section>
+        <h2>Subjects and Marks</h2>
+        <ul>
+            {% for subject in enrolled_subjects %}
+            <li>
+                <a href="{% url 'subject_marks_view' subject.id %}">
+                    {{ subject.subject_name }}
+                </a>
+            </li>
+            {% empty %}
+            <li>No subjects registered.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+
+    
+    <!-- You might want to include footer and other page components here -->
+
+</body>
+</html>

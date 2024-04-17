@@ -1,0 +1,24 @@
+<!-- apply_leave.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Leave</title>
+</head>
+
+<body>
+    <h2>Apply Leave</h2>
+    <form method="post" action="{% url 'apply_leave' %}">
+        {% csrf_token %}
+        <label for="date">Date:</label>
+        <input type="date" name="date" required><br>
+        <label for="reason">Reason:</label>
+        <textarea name="reason" required></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

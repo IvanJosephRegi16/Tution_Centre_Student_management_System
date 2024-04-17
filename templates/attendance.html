@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Page</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            overflow: auto;
+            margin: 0;
+            padding-top: 70px;
+            background: #ecedf0;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background: linear-gradient(to right, #ffafbd 0%, #ffc3a0 100%);
+            color: Black;
+            padding-top: 20px;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s;
+            color: Black;
+        }
+
+        .sidebar a:not(.logout-button):hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            height: calc(100vh - 140px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <a href="{% url 'staffpage' %}">Home</a>
+        <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+        <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+        <a href="{% url 'upload_notes' %}">Upload Notes</a>
+        <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+        <a href="{% url 'attendance_view' %}">Student Attendance</a>
+        <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <form method="POST">
+            {% csrf_token %}
+            <label for="date">Select Date: </label>
+            <input type="date" name="date" id="date" value="{{ selected_date }}">
+            <button type="submit">Show Timetable</button>
+        </form>
+
+        {% if selected_date %}
+        {% if message %}
+<p>{{ message }}</p>
+{% endif %}
+
+{% if not no_classes %}
+    <!-- Display the form to mark attendance -->
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ selected_date }}">
+        {% for timetable in timetables %}
+            <h2>Timetable for {{ selected_date }} - {{ timetable.subject.subject_name }}</h2>
+            {% for student in timetable.subject.students.all %}
+                <div>
+                    {{ student.first_name }} {{ student.last_name }}:
+                    1st Hour: <input type="checkbox" name="first_hour_{{ student.id }}">
+                    2nd Hour: <input type="checkbox" name="second_hour_{{ student.id }}">
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <button type="submit" name="mark_attendance">Submit Attendance</button>
+    </form>
+{% endif %}
+        {% else %}
+            <p>You have no classes on this date.</p>
+        {% endif %}
+    
+    </div>
+</body>
+</html>

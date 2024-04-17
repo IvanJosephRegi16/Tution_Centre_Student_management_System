@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback for Class</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        /* Sidebar styling */
+        .sidebar {
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+        /* Sidebar links */
+        .sidebar a, .logout-btn {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+        /* Active class for current page link */
+        .active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        /* Hover effect for links */
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        /* Logout button */
+        .logout-btn {
+            background-color: #dc3545; /* Bootstrap's red */
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+        }
+        .logout-btn:hover {
+            background-color: #bd2130;
+        }
+        /* Main content area next to the sidebar */
+        .main-content {
+            margin-left: 250px; /* Same as sidebar width */
+            padding: 20px;
+        }
+        /* Table Styling */
+        .feedback-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .feedback-table th, .feedback-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .feedback-table th {
+            background-color: #74ebd5;
+            color: #333;
+        }
+        .feedback-table td {
+            color: #333;
+        }
+        /* Header for the content area */
+        .main-header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: left;
+        }
+        /* For smaller screens */
+        @media (max-width: 768px) {
+            .class-feedback-container {
+                width: 95%; /* Adjust width for smaller devices */
+                margin: 20px auto; /* Keep the margin auto for horizontal centering */
+            }
+        }
+
+        .feedback-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .feedback-button:hover {
+            background-color: white;
+            color: black;
+            border: 1px solid #4CAF50;
+        }
+
+        .class-feedback-container {                     
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;                
+            padding: 20px;
+            margin: 20px 600px; /* Auto margin for horizontal centering */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%; /* Adjust width as needed */
+            /* Removed margin-top for individual centering */
+        }
+
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .class-feedback-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .class-feedback-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <h2>Admin Dashboard</h2>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" name="add_student" href="{% url 'update_students' %}">Add Student</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_staff' %}">Add Staff</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_class' %}">Add Class</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_class' %}">View Class</a>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_subject' %}">Add Subjects</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_subjects' %}">View Subjects</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Manage Session</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_student_details' %}">View Student Details</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_leave_requests' %}">Leave Requests</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'manage_staff_leave_requests' %}">Staff Leave Requests</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'manage_timetable' %}">Manage Timetable</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'staff_view' %}">Staff Members</a>
+                    </li>
+                    
+                    <li class="nav-link">
+                        <!-- ... existing links ... -->
+                        <a class="nav-link" href="{% url 'view_student_feedback' %}">View Student Feedback</a>
+                    </li>
+                    
+                    <!-- Add more links as needed -->
+                </ul>
+                <button class="btn btn-danger mt-3"><a class="text-white" href="{% url 'logoutPage' %}">Logout</a></button>
+            </div>   
+
+    <!-- Page Content -->
+    <div class="main-content">
+        <div class="centered-container">
+            <div class="class-feedback-container">
+                <h2>View Student Feedback</h2>
+                <div>
+                    <!-- Loop through classes and create a button for each class name -->
+                    {% for class in classes %}
+                        <button class="class-feedback-button" onclick="location.href='{% url 'view_class_feedback' class.id %}'">
+                            {{ class.class_name }}
+                        </button>
+                    {% empty %}
+                        <p>No classes available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

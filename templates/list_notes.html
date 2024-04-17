@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Notes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h2 class="mt-5">Class Notes</h2>
+    <ul class="list-group mt-3">
+      {% for note in notes %}
+        <li class="list-group-item">
+          <strong>{{ note.chapter }} - {{ note.topic }}</strong>
+          <a href="{{ note.pdf_file.url }}" class="btn btn-link" download>Download</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item">No notes available for your class.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

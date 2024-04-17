@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff View</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            padding-top: 50px;
+        }
+        .staff-list {
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .staff-member {
+            align-items: center;
+            border-bottom: 1px solid #eeeeee;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        .staff-member:last-child {
+            border-bottom: none;
+        }
+        .staff-member h5 {
+            margin-bottom: 0;
+        }
+        .staff-member .email {
+            color: #666666;
+            font-size: 0.9em;
+        }
+        .header {
+            border-bottom: 2px solid #007bff;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Staff Members</h1>
+        </div>
+        <div class="staff-list">
+            {% for staff_member in staff_members %}
+                <div class="staff-member">
+                    <h5>{{ staff_member.get_full_name }}</h5>
+                    <span class="email">{{ staff_member.email }}</span>
+                </div>
+            {% empty %}
+                <p>No staff members found.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.9/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

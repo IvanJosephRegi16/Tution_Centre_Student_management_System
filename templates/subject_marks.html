@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject.subject_name }} Marks</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        form {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        select {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 1rem;
+        }
+        input[type="submit"] {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #5cb85c;
+            color: #fff;
+            font-size: 1rem;
+        }
+        input[type="submit"]:hover {
+            background: #4cae4c;
+        }
+        main {
+            padding: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        table th, table td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        table th {
+            background-color: #333;
+            color: #fff;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .remarks {
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-weight: bold;
+    </style>
+</head>
+<body>
+    
+    <header>
+        <a href="{% url 'academic_marks' %}" class="back-button">Back</a>
+        <h1>Marks for {{ subject.subject_name }}</h1>
+        <form method="get" action="">
+            <label for="month">Select Month:</label>
+            <select name="month" id="month" onchange="this.form.submit()">
+                <option value="all" {% if selected_month == 'all' %}selected{% endif %}>All Months</option>
+                {% for month_name in months %}
+                    <option value="{{ month_name }}" {% if selected_month == month_name %}selected{% endif %}>{{ month_name }}</option>
+                {% endfor %}
+            </select>
+            <noscript><input type="submit" value="Filter"></noscript>
+        </form>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Scored Marks</th>
+                    <th>Total Marks</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                    <th>Month</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in marks_entries %}
+                <tr>
+                    <td>{{ entry.scored_marks }}</td>
+                    <td>{{ entry.total_marks }}</td>
+                    <td>{{ entry.percentage }}%</td>
+                    <td>{{ entry.grade }}</td>
+                    <td>{{ entry.month }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not marks_entries %}
+        <p>No marks recorded for this subject.</p>
+        {% endif %}
+
+
+        {% if marks_entries %}
+            {% with entry=marks_entries|first %}
+            <div class="remarks">
+                {% if entry.scored_marks >= 45 %}
+                    Outstanding Performance
+                {% elif entry.scored_marks >= 40 %}
+                    Excellent
+                {% elif entry.scored_marks >= 35 %}
+                    Very Good
+                {% elif entry.scored_marks >= 30 %}
+                    Good
+                {% elif entry.scored_marks >= 25 %}
+                    Need Improvement
+                {% elif entry.scored_marks >= 20 %}
+                    Need more Improvement
+                {% else %}
+                    Very Poor Performance
+                {% endif %}
+            </div>
+            {% endwith %}
+        {% endif %}
+    </main>
+</body>
+</html>

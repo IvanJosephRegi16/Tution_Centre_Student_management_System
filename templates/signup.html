@@ -1,0 +1,310 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .registration-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .registration-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .registration-form label,
+        .registration-form input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .validation-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .registration-form button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .registration-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Additional Styles for a more professional look */
+        .container {
+            overflow: hidden; /* Clear floats inside the container */
+        }
+
+        /* Style for messages */
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        .messages li {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media screen and (max-width: 600px) {
+            .navbar ul {
+                text-align: center;
+            }
+
+            .navbar ul li {
+                display: block;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <nav class="navbar">
+        <div class="container">
+            <ul>
+                <li><a href="{% url "login" %}">Login</a></li>
+                <li><a href="{% url "about" %}">About</a></li>
+                <li><a href="{% url "contact" %}">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="registration-form">
+            <h2>Registration Form</h2>
+
+            <form id="registration-form" action="#" method="post">
+                {% csrf_token %}
+
+                <label for="firstname">First Name:</label>
+                <input type="text" id="firstname-input" name="fname" required>
+                <div class="validation-message" id="firstname-validation-message"></div>
+
+                <label for="lastname">Last Name:</label>
+                <input type="text" id="lastname-input" name="lname" required>
+                <div class="validation-message" id="lastname-validation-message"></div>
+
+                <label for="username">Username:</label>
+                <input type="text" id="username-input" name="username" required>
+                <div class="validation-message" id="username-validation-message"></div>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email-input" name="email" required>
+                <div class="validation-message" id="email-validation-message"></div>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password-input" name="password" required>
+                <div class="validation-message" id="password-validation-message"></div>
+
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm-password-input" name="confirm_password" required>
+                <div class="validation-message" id="confirm-password-validation-message"></div>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript valid  <script>
+        // Get references to the validation message elements and form fields
+        const firstNameValidationMessage = document.getElementById('firstname-validation-message');
+        const lastNameValidationMessage = document.getElementById('lastname-validation-message');
+        const usernameValidationMessage = document.getElementById('username-validation-message');
+        const emailValidationMessage = document.getElementById('email-validation-message');
+        const passwordValidationMessage = document.getElementById('password-validation-message');
+        const confirmPasswordValidationMessage = document.getElementById('confirm-password-validation-message');
+
+        const firstNameInput = document.getElementById('firstname-input');
+        const lastNameInput = document.getElementById('lastname-input');
+        const usernameInput = document.getElementById('username-input');
+        const emailInput = document.getElementById('email-input');
+        const passwordInput = document.getElementById('password-input');
+        const confirmPasswordInput = document.getElementById('confirm-password-input');
+
+        // Validation logic for First Name
+        firstNameInput.addEventListener('input', () => {
+            const firstNameValue = firstNameInput.value.trim();
+            if (firstNameValue === '') {
+                firstNameValidationMessage.textContent = 'Please enter your First Name.';
+            } else if (!/^[a-zA-Z]*$/.test(firstNameValue)) {
+                firstNameValidationMessage.textContent = 'First Name can only contain letters.';
+            } else {
+                firstNameValidationMessage.textContent = '';
+            }
+        });
+
+        // Validation logic for Last Name
+        lastNameInput.addEventListener('input', () => {
+            const lastNameValue = lastNameInput.value.trim();
+            if (lastNameValue === '') {
+                lastNameValidationMessage.textContent = 'Please enter your Last Name.';
+            } else if (!/^[a-zA-Z]*$/.test(lastNameValue)) {
+                lastNameValidationMessage.textContent = 'Last Name can only contain letters.';
+            } else {
+                lastNameValidationMessage.textContent = '';
+            }
+        });
+
+        // Validation logic for Username
+        usernameInput.addEventListener('input', () => {
+            const usernameValue = usernameInput.value.trim();
+            if (usernameValue === '') {
+                usernameValidationMessage.textContent = 'Please enter your Username.';
+            } else if (/\s/.test(usernameValue)) {
+                usernameValidationMessage.textContent = 'Username cannot contain spaces.';
+            } else if (!/^[a-zA-Z0-9_]*$/.test(usernameValue)) {
+                usernameValidationMessage.textContent = 'Username can only contain letters, numbers, and underscores.';
+            } else {
+                usernameValidationMessage.textContent = '';
+            }
+        });
+
+        // Validation logic for Email
+        emailInput.addEventListener('input', () => {
+            const emailValue = emailInput.value.trim();
+            if (emailValue === '') {
+                emailValidationMessage.textContent = 'Please enter your email.';
+            } else if (!/^\S+@\S+\.\S+$/.test(emailValue)) {
+                emailValidationMessage.textContent = 'Please enter a valid email address.';
+            } else {
+                emailValidationMessage.textContent = '';
+            }
+        });
+
+        // Validation logic for Password
+        passwordInput.addEventListener('input', () => {
+            const passwordValue = passwordInput.value;
+            const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+            if (!passwordPattern.test(passwordValue)) {
+                passwordValidationMessage.textContent = 'Password must contain at least one numeric digit, one uppercase letter, one lowercase letter, and one special character, and be at least 8 characters long.';
+            } else {
+                passwordValidationMessage.textContent = '';
+            }
+        });
+
+        // Validation logic for Confirm Password
+        confirmPasswordInput.addEventListener('input', () => {
+            const confirmPasswordValue = confirmPasswordInput.value;
+            const passwordValue = passwordInput.value;
+            if (confirmPasswordValue === '') {
+                confirmPasswordValidationMessage.textContent = 'Please confirm your password.';
+            } else if (confirmPasswordValue !== passwordValue) {
+                confirmPasswordValidationMessage.textContent = 'Passwords do not match.';
+            } else {
+                confirmPasswordValidationMessage.textContent = '';
+            }
+        });
+
+        // Get a reference to the form
+        const registrationForm = document.getElementById('registration-form');
+
+        // Function to validate the form on submit
+        {% comment %} function validateForm(event) { {% endcomment %}
+            // Check if any validation messages are not empty
+            {% comment %} if (firstNameValidationMessage.textContent !== "" ||
+                lastNameValidationMessage.textContent !== "" ||
+                usernameValidationMessage.textContent !== "" ||
+                emailValidationMessage.textContent !== "" ||
+                passwordValidationMessage.textContent !== "" ||
+                confirmPasswordValidationMessage.textContent !== "") { {% endcomment %}
+                // Prevent form submission and display an alert
+                {% comment %} alert('Please fix the form errors before submitting.');
+                event.preventDefault();
+            }
+        } {% endcomment %}
+
+        // Attach the validateForm function to the form's submit event
+        {% comment %} registrationForm.addEventListener('submit', validateForm); {% endcomment %}
+        // Inside the validateForm function for registration
+function validateForm(event) {
+  // Check if any validation messages are not empty
+  if (
+      firstNameValidationMessage.textContent !== "" ||
+      lastNameValidationMessage.textContent !== "" ||
+      usernameValidationMessage.textContent !== "" ||
+      emailValidationMessage.textContent !== "" ||
+      passwordValidationMessage.textContent !== "" ||
+      confirmPasswordValidationMessage.textContent !== ""
+  ) {
+      // Display a general error message if there are validation errors
+      alert('Please fix the form errors before submitting.');
+      event.preventDefault(); // Prevent form submission
+  } else {
+      // Show a success toast notification
+      Toastify({
+          text: "Registration successful!",
+          duration: 3000, // Toast will be shown for 3 seconds
+          gravity: "bottom", // Toast will appear at the bottom
+          backgroundColor: "#4caf50", // Green color for success
+      }).showToast();
+  }
+}
+
+    </script>
+   
+</body>
+
+</html>

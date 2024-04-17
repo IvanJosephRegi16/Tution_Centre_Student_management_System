@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Class</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: #f4f7f6;
+        }
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            height: 100%;
+            left: 0;
+            background-color: #394263;
+            color: #fff;
+            box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar h2 {
+            padding: 20px;
+            margin: 0;
+            background-color: #6d7fcc;
+            text-align: center;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px 20px;
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .sidebar a:hover {
+            background-color: #5e6db3;
+            color: #fff;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            height: calc(100% - 80px);
+            overflow-y: auto;
+            background: #f4f7f6;
+        }
+        header {
+            background: #394263;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+        main {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #394263;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-secondary {
+            background-color: #6d7fcc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            opacity: 0.9;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <a href="{% url 'staffpage' %}">Home</a>
+        <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+        <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+        <a href="{% url 'upload_notes' %}">Upload Notes</a>
+        <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+        <a href="{% url 'attendance_view' %}">Student Attendance</a>
+        <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+        <a href="{% url 'online_class' %}">Online Class</a>
+        <a href="{% url 'view_marks' %}">Marks</a> <!-- New link for Marks -->
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Online Class</h1>
+        </header>
+        <main>
+            <h2>Host Google Meet Session</h2>
+            <a href="https://meet.google.com/new" target="_blank" class="btn btn-primary">Host a Meeting</a>
+            
+            
+        </main>
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="meet_link" placeholder="Enter Google Meet Link">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    
+</body>
+</html>

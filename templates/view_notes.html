@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uploaded Notes</title>
+    <style>
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #333;
+            padding-top: 20px;
+            color: white;
+            z-index: 1;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+
+        /* Adjust the body padding to accommodate the sidebar */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+            padding-left: 250px; /* Same as sidebar width */
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Animation for note entry */
+        @keyframes slideUp {
+            /* Animation keyframes unchanged */
+        }
+
+        .notes-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            animation: slideUp 0.5s ease-in forwards;
+        }
+        .note {
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            position: relative;
+        }
+        .note:last-child {
+            border-bottom: none;
+        }
+        .note strong {
+            color: #555;
+        }
+        .note p {
+            margin: 5px 0;
+        }
+        .note a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.2s ease-in;
+        }
+        .note a:hover {
+            color: #0056b3;
+        }
+        .edit-button {
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+        .no-notes {
+            text-align: center;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <a href="{% url 'staffpage' %}">Home</a>
+        <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+        <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+        <a href="{% url 'upload_notes' %}">Upload Notes</a>
+        <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+        <a href="{% url 'attendance_view' %}">Student Attendance</a>
+        <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+        <a href="{% url 'online_class' %}">Online Class</a>
+        <a href="{% url 'view_marks' %}">Marks</a> <!-- New link for Marks -->
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    <h2>Uploaded Notes</h2>
+    <div class="notes-container">
+        {% if notes %}
+            {% for note in notes %}
+                <div class="note">
+                    <p><strong>Chapter:</strong> {{ note.chapter }}</p>
+                    <p><strong>Topic:</strong> {{ note.topic }}</p>
+                    <p>
+                        <a href="{{ note.pdf_file.url }}" target="_blank">Download PDF</a>
+                    </p>
+                    <!-- Edit button -->
+                    <button onclick="location.href='{% url 'edit_note' note.id %}'" class="edit-button">Edit</button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-notes">No notes have been uploaded.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

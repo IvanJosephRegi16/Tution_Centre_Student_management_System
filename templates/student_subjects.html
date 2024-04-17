@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Subjects</title>
+    <style>
+        /* Add the copied CSS styles related to header, nav, and animations here */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 50px; /* Add padding to the bottom of the body to ensure content is not hidden by the footer */
+            animation: backgroundShift 20s ease infinite;
+            background-size: 300% 300%;
+            position: relative;
+            min-height: 100vh; /* Fallback for older browsers */
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes backgroundShift {
+            0% { background: linear-gradient(to right, #6dd5ed, #2193b0); }
+            25% { background: linear-gradient(to right, #ff758c, #ff7eb3); }
+            50% { background: linear-gradient(to right, #f7971e, #ffd200); }
+            75% { background: linear-gradient(to right, #4b6cb7, #182848); }
+            100% { background: linear-gradient(to right, #6dd5ed, #2193b0); }
+        }
+
+        header, nav {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0); }
+        }
+
+        header, nav {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ddd;
+            transform: translateX(10px);
+        }
+
+        /* Continue with your existing CSS for the student_subject.html */
+        div {
+            
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            color: black;
+            width: 200%;
+            max-width: 600px;
+            margin: auto;
+            text-align: center
+            
+        }
+
+        h2 {
+            color: #2193b0;
+            text-align: center;
+            margin-bottom: 30px; /* Increased margin for more space */
+            font-size: 2.5rem; /* Larger font size for the heading */
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            margin: 15px 0; /* Increased margin for more space */
+            padding: 20px; /* Increased padding for a larger area */
+            border-radius: 5px;
+            color: white;
+            transition: transform 0.3s ease;
+            font-size: 1.25rem; /* Increased font size for visibility */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+        }
+
+        li:hover {
+            transform: scale(1.05); /* Slight increase to emphasize hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+        }
+
+        p {
+            color: Black;
+            font-size: 1rem;
+            text-align: center; /* Center the session and class information */
+            margin-top: 20px; /* Added margin for spacing */
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            animation: backgroundShift 20s ease infinite;
+            background-size: 300% 300%;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            z-index: 10;
+            /* Ensure the footer is visible above other content */
+        }
+        .content {
+            padding-bottom: 60px; /* Height of the footer */
+            flex: 1 0 auto; /* Stretch content to fill the space */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ASURE</h1>
+        <button><a href="{% url 'login' %}">Logout</a></button>
+    </header>
+
+    <nav>
+        <a href="{% url 'student' %}">Home</a>
+        <a href="javascript:void(0)" onclick="toggleLeaveForm()">Leave</a>
+        <a href="{% url 'student_subjects' %}">Subjects</a>
+        <a href="{% url 'view_student_timetable' %}">Timetable</a>
+        <a href="#">Contact</a>
+        <a href="{% url 'student_attendance' %}">Attendance</a>
+        
+    </nav>
+    
+    <div>
+        <h2>Your Subjects</h2>
+        <br><br><br><br>
+        {% if enrolled_subjects %}
+        <ul>
+            {% for subject in enrolled_subjects %}
+            <li>
+                <a href="{% url 'subject_notes' subject.id %}">
+                    {{ subject.subject_name }}
+                </a>
+                <br>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No subjects found.</p>
+        {% endif %}
+        <br><br><br><br>
+        <p>Session: {{ session }}</p>
+        <p>Class: {{ class_name }}</p>
+    </div>
+<footer>
+    <p>&copy; 2024 ASURE. All rights reserved.</p>
+</footer>
+    
+</body>
+</html>

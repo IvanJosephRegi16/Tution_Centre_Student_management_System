@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Leave Application</title>
+    <style>
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #333;
+            padding-top: 20px;
+            color: white;
+            z-index: 1;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding-left: 250px; /* Make space for the sidebar */
+        }
+
+        .leave-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 300px;
+            
+        }
+
+        h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; /* Added box-sizing */
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #eee;
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        li:hover {
+            background-color: #ddd;
+        }
+    </style>
+    <script>
+        function fetchSubjectsForDate() {
+            var date = document.getElementById('datePicker').value;
+            var dayOfWeek = new Date(date).toLocaleString('en-us', {weekday: 'long'});
+            var url = `/get-subjects-for-day/?day=${dayOfWeek}`;  // Adjust to match your URL configuration
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var subjectSelect = document.getElementById('subjectSelect');
+                    subjectSelect.innerHTML = '<option value="">Select Subject</option>'; // Clear and add placeholder
+                    data.subjects.forEach(subject => {
+                        var option = new Option(subject.subject_name, subject.id);
+                        subjectSelect.add(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Staff Dashboard</h2>
+        <a href="{% url 'staffpage' %}">Home</a>
+        <a href="{% url 'staff_leave_application' %}">Apply for Leave</a>
+        <a href="{% url 'view_staff_timetable' %}">Timetable</a>
+        <a href="{% url 'upload_notes' %}">Upload Notes</a>
+        <a href="{% url 'view_notes' %}">View/Edit Notes</a>
+        <a href="{% url 'attendance_view' %}">Student Attendance</a>
+        <a href="{% url 'view_attendance' %}">View Student Attendance</a>
+        <a href="{% url 'online_class' %}">Online Class</a>
+        <a href="{% url 'view_marks' %}">Marks</a> <!-- New link for Marks -->
+        <a href="{% url 'login' %}" class="logout-button">Logout</a>
+    </div>
+    <div class="leave-form">
+        <h3>Apply for Leave</h3>
+        
+        <div>
+            <strong>Classes:</strong>
+            <ul>
+                {% for class_name in class_names %}
+                    <li>{{ class_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <form action="{% url 'submit_staff_leave' %}" method="post">
+            {% csrf_token %}
+            <input type="date" id="datePicker" name="date" required onchange="fetchSubjectsForDate();">
+            <textarea name="reason" placeholder="Reason for leave" required></textarea>
+            <select name="subject" id="subjectSelect" required>
+                <option value="">Select Subject</option>
+                {% for subject in taught_subjects %}
+                    <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Submit Leave Request</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dateField = document.querySelector('input[type="date"]');
+            var today = new Date().toISOString().split('T')[0];
+            dateField.setAttribute('min', today);
+        });
+    </script>
+</body>
+</html>

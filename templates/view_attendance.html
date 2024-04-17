@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Attendance</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            animation: gradientBG 5s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            text-align: center;
+            padding-top: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.9);
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        table tr:hover {
+            background-color: rgba(116, 235, 213, 0.3);
+            transform: scale(1.02);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #74ebd5;
+            color: #333;
+            font-weight: bold;
+        }
+
+        td {
+            color: #333;
+        }
+
+        /* Keyframes for table rows */
+        @keyframes enterAnimation {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animation for each table row */
+        table tr {
+            animation: enterAnimation 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <h1>Attendance Records</h1>
+    <!-- Dropdown and Date Picker Form -->
+    <form method="get" action="{% url 'view_attendance' %}">
+        <label for="date">Select Date:</label>
+        <input type="date" name="date" id="date" value="{{ selected_date }}">
+    
+        
+    
+        <button type="submit">Filter Records</button>
+    </form>
+    
+    <!-- Display the attendance records -->
+    {% for record in attendance_records %}
+    <!-- Display each record -->
+    {% empty %}
+    <p>No attendance records found for the selected date and/or student.</p>
+    {% endfor %}
+
+<!-- Attendance Records Table -->
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>1st Hour</th>
+            <th>2nd Hour</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in attendance_records %}
+        <tr>
+            <td>{{ record.student.user.first_name }} {{ record.student.user.last_name }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.first_hour|yesno:"Present,Absent" }}</td>
+            <td>{{ record.second_hour|yesno:"Present,Absent" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No attendance records found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    
+</body>
+</html>
