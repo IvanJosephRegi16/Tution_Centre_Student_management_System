@@ -172,29 +172,6 @@
             <span id="phone-error" class="error-message"></span>
 
 
-            <label for="class">Class:</label>
-            <select name="course" id="class" required onchange="loadSubjects()">
-                {% for class in classes %}
-                    <option value="{{ class.id }}">{{ class.class_name }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="subjects">Subjects:</label>
-            {% for subject in subjects %}
-                <label>
-                    <input type="checkbox" name="subjects" value="{{ subject.id }}"> {{ subject.subject_name }} ({{ subject.class_name }})
-                </label><br>
-            {% endfor %}
-
-            <label for="session">Session:</label>
-            <select name="session" id="session" required>
-                {% for value, text in session_choices %}
-                <option value="{{ value }}">{{ text }}</option>
-                {% endfor %}
-            </select>
-            
-
-
            
             <label for="gender">Gender:</label>
             <select name="gender" required>
@@ -206,6 +183,29 @@
 
             <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="dob" required>
+
+
+            <label for="class_no">Class Name:</label>
+            <select name="class_no" required>
+                {% for class in classes %}
+                <option value="{{ class.id }}">{{ class.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Subjects:</label>
+            {% for subject in subjects %}
+            <div>
+                <input type="checkbox" id="subject{{ subject.id }}" name="subjects" value="{{ subject.id }}">
+                <label for="subject{{ subject.id }}">{{ subject.name }}</label>
+            </div>
+            {% endfor %}
+
+            <label for="session_time">Session Time:</label>
+            <select name="session_time" required>
+                {% for session in session_times %}
+                <option value="{{ session.id }}">{{ session.name }}</option>
+                {% endfor %}
+            </select>
 
                
 
@@ -275,37 +275,6 @@
         function validateForm() {
             return validateFirstName() && validateLastName() && validateEmail() && validatePhoneNumber() && validateUserName();
         }
-
-        function loadSubjects() {
-            var classId = document.getElementById('class').value;
-            var subjectsContainer = document.getElementById('subjects-container');
-            
-            // Clear existing subjects
-            subjectsContainer.innerHTML = '';
-        
-            // Fetch and display subjects for the selected class
-            fetch(`/get-subjects-for-class/${classId}/`)
-                .then(response => response.json())
-                .then(subjects => {
-                    subjects.forEach(subject => {
-                        // Create a checkbox for each subject
-                        var label = document.createElement('label');
-                        label.style.display = 'block'; // Ensure the label is displayed correctly
-        
-                        var checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.name = 'subjects';
-                        checkbox.value = subject.id;
-        
-                        label.appendChild(checkbox);
-                        label.appendChild(document.createTextNode(subject.name));
-        
-                        subjectsContainer.appendChild(label);
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        }
-        
         
         
     </script>

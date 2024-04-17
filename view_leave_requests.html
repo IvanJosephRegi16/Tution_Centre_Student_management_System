@@ -1,21 +1,16 @@
-<table>
-    <tr>
-        <th>Student</th>
-        <th>Date</th>
-        <th>Subject</th>
-        <th>Reason</th>
-        <th>Action</th>
-    </tr>
+<!-- view_leave_requests.html -->
+
+{% block content %}
+<h2>Leave Requests</h2>
+<ul>
     {% for leave_request in leave_requests %}
-    <tr>
-        <td>{{ leave_request.student.user.username }}</td> <!-- Updated path -->
-        <td>{{ leave_request.date }}</td>
-        <td>{{ leave_request.subject.subject_name }}</td>
-        <td>{{ leave_request.reason }}</td>
-        <td>
-            <a href="{% url 'approve_leave_request' leave_request.id %}">Approve</a>
-            <a href="{% url 'reject_leave_request' leave_request.id %}">Reject</a>
-        </td>
-    </tr>
+        <li>
+            {{ leave_request.date }} - {{ leave_request.description }} - {{ leave_request.status }}
+            {% if user.role == 'ADMIN' %}
+                <a href="{% url 'manage_leave_request' leave_request.id 'approve' %}">Approve</a> |
+                <a href="{% url 'manage_leave_request' leave_request.id 'reject' %}">Reject</a>
+            {% endif %}
+        </li>
     {% endfor %}
-</table>
+</ul>
+{% endblock %}

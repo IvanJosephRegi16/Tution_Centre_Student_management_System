@@ -4,65 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Timetable</title>
-    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"> {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <style>
         body {
-            background: linear-gradient(to right, #a1ffce, #faffd1);
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
             font-family: 'Arial', sans-serif;
-            font-weight: bold; /* Make all fonts bold */
             color: #333;
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
         }
-    
+
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-    
+
         h2, h3 {
             text-align: center;
             margin-bottom: 20px;
-            color: #005c97;
+            color: white;
         }
-    
+
         table {
             border-collapse: collapse;
             width: 100%;
             margin: 0 auto;
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            background-color: #fff;
-            border-radius: 8px;
-            overflow: hidden;
         }
-    
+
         th, td {
             padding: 12px;
             text-align: left;
-            transition: background-color 0.3s, transform 0.3s;
             border-bottom: 1px solid #ddd;
-            font-weight: bold; /* Make table fonts bold */
-            color: Blue;
+            transition: background-color 0.3s, transform 0.3s;
+            background-color: white;
         }
-    
+
         th {
-            background-color: #008080;
+            background-color: #4e54c8;
             color: white;
         }
-    
-        tr:nth-child(even) {background-color: #f0e6ef;}
-        tr:nth-child(odd) {background-color: #e0ebeb;}
-    
-        tr:hover {background-color: #d5f4e6;}
-    
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
         td:hover {
-            color: #154360;
+            background-color: #4e54c8;
+            color: white;
             transform: scale(1.03);
         }
-    
+
         input[type="submit"] {
-            background-color: #24a0ed;
+            background-color: #4CAF50;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -73,17 +68,14 @@
             margin: 4px 2px;
             transition: background-color 0.3s, color 0.3s;
             cursor: pointer;
-            border-radius: 4px;
-            font-weight: bold; /* Make button fonts bold */
         }
-    
+
         input[type="submit"]:hover {
             background-color: white;
-            color: #24a0ed;
-            border: 2px solid #24a0ed;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
         }
     </style>
-    
 </head>
 <body>
     <h2>Class Timetables</h2>

@@ -1,8 +1,13 @@
-<!-- This is a simplified version, add your complete HTML structure -->
-<form method="post" action="{% url 'submit_leave_request' %}">
+<!-- submit_leave_request.html -->
+
+{% block content %}
+<h2>Submit Leave Request</h2>
+<form method="post">
     {% csrf_token %}
-    <input type="date" name="date" required>
-    <input type="text" name="subject" required>
-    <textarea name="reason" required></textarea>
+    <label for="date">Date:</label>
+    <input type="date" name="date" required><br>
+    <label for="description">Description:</label>
+    <textarea name="description" required></textarea><br>
     <button type="submit">Submit</button>
 </form>
+{% endblock %}
