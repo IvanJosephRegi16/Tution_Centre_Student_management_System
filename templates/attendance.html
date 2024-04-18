@@ -114,8 +114,9 @@
             {% for student in timetable.subject.students.all %}
                 <div>
                     {{ student.first_name }} {{ student.last_name }}:
-                    1st Hour: <input type="checkbox" name="first_hour_{{ student.id }}">
-                    2nd Hour: <input type="checkbox" name="second_hour_{{ student.id }}">
+                    1st hour:<input type="checkbox" name="first_hour_{{ student.pk }}" {% if some_condition %}checked{% endif %}>
+                    2nd hour:<input type="checkbox" name="second_hour_{{ student.pk }}" {% if some_condition %}checked{% endif %}>
+                    
                 </div>
             {% endfor %}
         {% endfor %}
