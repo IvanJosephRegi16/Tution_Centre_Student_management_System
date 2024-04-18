@@ -1296,20 +1296,18 @@ def reject_leave_request(request, leave_id):
 
 
 
-from datetime import datetime
-from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import Attendance, StudentNew, Staff, Timetable
+from django.contrib import messages
 from django.utils.dateparse import parse_date
+from .models import Staff, Timetable, StudentNew, Attendance
+from datetime import datetime
 
-@login_required(login_url='login')
 def attendance_view(request):
     context = {
         'timetables': [],
         'students': [],
         'selected_date': None,
-        'no_classes': True,  # Assume no classes until found otherwise
+        'no_classes': True,
         'message': ''
     }
 
@@ -1332,16 +1330,17 @@ def attendance_view(request):
                     for timetable in timetables:
                         students = StudentNew.objects.filter(subjects=timetable.subject)
                         for student in students:
+                            attendance_data = {}
                             for period in ['first_hour', 'second_hour']:
-                                checkbox_value = request.POST.get(f"{period}_{student.pk}") == 'on'  # Changed from student.id to student.pk
-                                Attendance.objects.update_or_create(
-                                    student=student,
-                                    date=selected_date,
-                                    subject=timetable.subject,
-                                    defaults={
-                                        period: checkbox_value
-                                    }
-                                )
+                                checkbox_name = f"{period}_{student.pk}"
+                                checkbox_value = request.POST.get(checkbox_name, 'off') == 'on'
+                                attendance_data[period] = checkbox_value
+                            Attendance.objects.update_or_create(
+                                student=student,
+                                date=selected_date,
+                                subject=timetable.subject,
+                                defaults=attendance_data
+                            )
                     messages.success(request, "Attendance marked successfully.")
                     return redirect('attendance_view')
             else:
@@ -1349,8 +1348,8 @@ def attendance_view(request):
         else:
             context['message'] = "Please select a date."
 
-    # When the request is GET, just render the form with the context.
     return render(request, 'attendance.html', context)
+
 
 
 
